@@ -1,6 +1,6 @@
 
         
-name: Python Flask CI/CD
+name: Python Django CI/CD
 
 on:
   push:
@@ -42,15 +42,17 @@ jobs:
 
       - name: Build and push Docker image
         run: |
-          docker build . -t your-dockerhub-username/flask-app:$GITHUB_SHA
-          docker push your-dockerhub-username/flask-app:$GITHUB_SHA
+          docker build . -t your-dockerhub-username/your-image-name:$GITHUB_SHA
+          docker push your-dockerhub-username/your-image-name:$GITHUB_SHA
 
-      # Assuming you have set up GKE context using gcloud auth action before this step.
-      # If not, you can add that step to authenticate with GKE.
+      - name: Set up kubectl
+        uses: azure/k8s-set-context@v1.0.0
+        with:
+          kubeconfig-data: ${{ secrets.KUBE_CONFIG_DATA }}
 
-      - name: Deploy to GKE
-        run : |
-          kubectl apply -f deployment.
+      - name : Deploy to GKE 
+         run : | 
+           kubectl apply -f deployment. 
 
 
         
